@@ -19,10 +19,8 @@ class Program
     class Oyoshi
     {
         static string? Name { get; set; }
-        static int MaxHp { get; } = 100;
         static string? Mind { get; set; }
         int MindLvl { get; set; }
-        static int Hp { get; set; }
         List<string> mindLvls = new List<string>() { "Рассудок в норме", "Помутнение сознания", "Потеря рассудка, дереализация" };
         static Dictionary<string, int> Inventory = new Dictionary<string, int>()
         {
@@ -30,7 +28,7 @@ class Program
             { "венок", 0 },
             { "незабудки", 0 }
         };
-        Oyoshi() { Name = "Ойоши"; Hp = MaxHp; MindLvl = 1; Mind = mindLvls[MindLvl - 1]; }
+        Oyoshi() { Name = "Ойоши"; MindLvl = 1; Mind = mindLvls[MindLvl - 1]; }
         
         void inventory()
         {
@@ -41,7 +39,7 @@ class Program
                 i++;
             }
         }
-        static string info() { return $"{Name}\t\tHp: {Hp}/{MaxHp}\nРассудок: {Mind}"; }
+        static string info() { return $"{Name}\nРассудок: {Mind}"; }
         static void addInventory(string thing, int count) { Inventory.Add(thing, count); }
         static void deleteInventory(string thing) { Inventory.Remove(thing); }
 
@@ -184,7 +182,7 @@ class Program
                     break;
             }
             UseFullMethods.ClearConsole();
-            Console.WriteLine("\t\t\t\tКонец предисловия\n\t\t\t\t\t->");
+            Console.WriteLine("\t\t\t\tКонец пролога\n\t\t\t\t\t->");
             UseFullMethods.ClearConsole();
         }
 
@@ -231,11 +229,41 @@ class Program
         }
         protected void End()
         {
-            switch (end)
+            int end_type = 0, choice = 0;
+            if (end < 0) { end_type = 1; }
+            else if (end >= 0 && end <= 5) {  end_type = 2; }
+            else { end_type = 3; }
+
+            switch (end_type)
             {
                 case 1:
+
                     break;
                 case 2:
+                    Console.WriteLine("Темно. Холодно. Сыро\nДвижения что-то сковывало или, быть может, у вас было лишьощущение того, что вы пытались двигаться" +
+                        "\n->");
+                    UseFullMethods.ClearConsole();
+                    Console.WriteLine("Открыть глаза вам удалось лишь спустя время и уйму усилий\nМедленно восстанавливая фокус зрения, вы смогли понять" +
+                        ", что находитесь в каком-то бескрайнем водоеме.. бескрайнем исключительно относительно горизонта\n" +
+                        "Вглубь этот водоем был примерно по щиколотки\n->");
+                    UseFullMethods.ClearConsole();
+                    Console.WriteLine("\n[1.] Подняться и осмотреться\n[2.] Остаться лежать в воде\nВвод: ");
+                    UseFullMethods.Check(2, choice);
+                    UseFullMethods.ClearConsole();
+                    if(choice == 2)
+                    {
+                        Console.WriteLine("Вы перевернулись на спину и остались наблюдать за тем, как плывут облака\nВаше сознание будто постепенно отделялось от вас," +
+                            "мысли таяли, теперь вы уже действительно не могли больше пошевелиться или хотя бы подумать об этом\n->");
+                        UseFullMethods.ClearConsole();
+                        Console.WriteLine("Ваше сознание медленно растворялось в чем-то легком и бескрайнем, как и все это место\n->");
+                        UseFullMethods.ClearConsole();
+                        Console.WriteLine("Хотя, быть может это ваше тело наоборот растворялось внутри вашего же сознания, которое вас добродушно заперло внутри себя" +
+                            ", дабы защитить от внешнего мира?\n->");
+                        UseFullMethods.ClearConsole();
+                        Console.WriteLine("?..\n\n->");
+                        UseFullMethods.ClearConsole();
+                        Console.WriteLine("Конец");
+                    }
                     break;
                 case 3:
                     break;
