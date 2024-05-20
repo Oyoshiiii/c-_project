@@ -143,7 +143,6 @@ class Program
             UseFullMethods.ClearConsole();
             Console.WriteLine("Приятной игры\n->");
             UseFullMethods.ClearConsole();
-
             Console.WriteLine("Прохладное раннее утро, цветочное поле, которое еще не заполнилось солнечным светом и находится в тени\n" +
                 "Среди незабудок лежит девочка, лет 12-14 наверное\n->");
             UseFullMethods.ClearConsole();
@@ -264,17 +263,54 @@ class Program
                         UseFullMethods.ClearConsole();
                         Console.WriteLine("Конец");
                     }
+                    else
+                    {
+                        Console.WriteLine("Вы осмотрелись вокруг, казалось, что этому месту нет ни конца, ни края. Что весь этот мир - этот водоем\n->");
+                        UseFullMethods.ClearConsole();
+                        Console.WriteLine("Но все же, вдали вы смогли увидеть будто бы небольшую возвышенность, островок?\n->");
+                        UseFullMethods.ClearConsole();
+                        Console.WriteLine("Вы добежали до этого островка\nУдивительно, но за все время бега вы не испытали ни капли усталости.. хотя бежали достаточно долго\n->");
+                        UseFullMethods.ClearConsole();
+                        Console.WriteLine("Или вам только показалось то, что вы бежали долго?..\n->");
+                        UseFullMethods.ClearConsole();
+                        Console.Write("Существует ли вообще понятие времени и зависимости физических потребностей в месте, которое является ____???????" +
+                            ": ");
+                        string answ = Console.ReadLine();
+                        if (answ == "сознанием" || answ == "Сознанием") { UseFullMethods.ClearConsole(); Console.WriteLine("\nУдивительно, вы правы\n->"); }
+                        UseFullMethods.ClearConsole();
+                        Console.WriteLine("Весь островок был покрыт полем незабудок, над ним, в воздухе, парили некие существа, схожие с медузами, но в тоже" +
+                            " время они были настолько невесомыми, легкими и прозрачными, что казалось, что это пары дым\nЛишь ултрамариновый отблеск в тени их выделял" +
+                            " и позволял увидеть\n");
+                        UseFullMethods.ClearConsole();
+                        Console.WriteLine("Что-то в этом мирке манило, затуманивало разум, успокаивало..\n->");
+                        UseFullMethods.ClearConsole();
+                        Console.WriteLine("В центре плоя стояла распуствшаяся лазурная сакура, листья которых медленно опадали\n->");
+                        UseFullMethods.ClearConsole();
+                        Console.WriteLine("Наблюдая за красотой его места, вы не заметили, как потеряли сознание, упав в мягкую подушку цветов и трав\n->");
+                        UseFullMethods.ClearConsole();
+                        Console.WriteLine("Прохладное раннее утро, цветочное поле, которое еще не заполнилось солнечным светом и находится в тени\n" +
+                "Среди незабудок лежит девочка, лет 12-14 наверное\n->");
+                        UseFullMethods.ClearConsole();
+                        Console.WriteLine("Чей-то взгляд разбудил ее\nОглядевшись, никого не оказалось рядом, но та продолжала осматриваться," +
+                            " будто ощущение чего-то присутсвия было не единственным, что пугало..\n->");
+                        UseFullMethods.ClearConsole();
+                        Console.WriteLine("Конец\n");
+                    }
                     break;
                 case 3:
                     break;
             }
         }
-        public void Menu() { }
+        public void Menu()
+        {
+            Console.WriteLine("");
+        }
         public void Plot()
         {
             Preface();
             Part1();
             Part2();
+            End();
         }
     }
 
