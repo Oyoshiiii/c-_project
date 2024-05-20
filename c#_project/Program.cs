@@ -12,7 +12,7 @@ class Program
 {
     interface IGame
     {
-        public void Menu();
+        public string Menu(bool continue_the_game, string thingToUse);
         public void Plot();
     }
     //------------------
@@ -47,7 +47,7 @@ class Program
         public static Add Add = addInventory;
         public static Delete Delete = deleteInventory;
 
-        public void menu(bool menu)
+        public void menu(bool menu, string useThing, string thingToUse, bool thing)
         {
             while (menu)
             {
@@ -76,6 +76,9 @@ class Program
                                 UseFullMethods.ClearConsole();
                                 Console.WriteLine("Выбранный элемент используется\n->");
                                 UseFullMethods.ClearConsole();
+                                useThing = Inventory.ElementAt(choice - 1).Key;
+                                if (useThing == thingToUse) { thing = true; Delete(thingToUse); }
+                                else thing = false;
                             }
                             break;
                         case 2:
@@ -136,6 +139,8 @@ class Program
     class Game : IGame
     {
         int end = 0;
+        Oyoshi Oyo;
+        Game(Oyoshi Oyo) { this.Oyo = Oyo; }
         void Preface()
         {
             int choice = 0;
@@ -301,9 +306,30 @@ class Program
                     break;
             }
         }
-        public void Menu()
+        public string Menu(bool continue_the_game, string thingToUse)
         {
-            Console.WriteLine("");
+            string? usingThing = "";
+            while (!continue_the_game)
+            {
+                Console.WriteLine($"----------------------------------------------------- [ {Oyoshi.Info()} ]\n|" +
+                $"                                                             |\n|                                                             |\n|" +
+                $"                                                             |\n|                                                             |\n|" +
+                $"[1.] Меню персонажа\t\t[2.] Выйти из меню\n-----------------------------------------------------\n\nВвод: ");
+                int choice = 0;
+                UseFullMethods.Check(2, choice);
+                switch (choice)
+                {
+                    case 1:
+                        bool menu = true;
+                        bool use = false;
+                        Oyo.menu(menu, usingThing, thingToUse, use);
+                        break;
+                    case 2:
+                        if(!continue_the_game) { Console.WriteLine("Боюсь, вам нужно еще подумать над своим выбором\n"); }
+                        break;
+                }
+            }
+            return usingThing;
         }
         public void Plot()
         {
