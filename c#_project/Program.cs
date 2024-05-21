@@ -22,15 +22,12 @@ class Program
     class Oyoshi
     {
         static string? Name { get; set; }
-        static string? Mind { get; set; }
-        int MindLvl { get; set; }
-        List<string> mindLvls = new List<string>() { "Рассудок в норме", "Помутнение сознания", "Потеря рассудка, дереализация" };
         static Dictionary<string, int> Inventory = new Dictionary<string, int>()
         {
             { "венок", 0 },
-            { "аптечка", 0 }
+            { "кошачий корм", 0 }
         };
-        public  Oyoshi() { Name = "Ойоши"; MindLvl = 1; Mind = mindLvls[MindLvl - 1]; }
+        public  Oyoshi() { Name = "Ойоши"; }
         
         void inventory()
         {
@@ -41,7 +38,6 @@ class Program
                 i++;
             }
         }
-        static string info() { return $"{Name}\nРассудок: {Mind}"; }
         static void addInventory(string thing, int count)
         {
             if (Inventory.ContainsKey(thing))
@@ -50,7 +46,7 @@ class Program
             }
             else { Inventory.Add(thing, count); }
         }
-        static void deleteInventory(string thing)
+        static string deleteInventory(string thing)
         {
             int value = Inventory[thing];
             if (value - 1 == 0)
@@ -61,23 +57,26 @@ class Program
             {
                 Inventory[thing] = value - 1;
             }
+            else
+            {
+                Console.WriteLine("У вас нет этой вещи");
+                thing = "";
+            }
+            return thing;
         }
-
-        public static Info Info = info;
         public static Add Add = addInventory;
         public static Delete Delete = deleteInventory;
 
-        public void menu(bool menu, string useThing, string thingToUse, bool thing)
+        public bool menu(bool menu, string useThing, string thingToUse, bool thing)
         {
             while (menu)
             {
-                Console.Write("\t\t\tМеню\n[1.] Инвентарь\n[2.] Информация о персонаже\n[3.] Выйти из меню\nВвод: ");
+                Console.Write("\t\t\tМеню\n[1.] Инвентарь\n[2.] Выйти из меню\nВвод: ");
                 try
                 {
                     int choice = 0;
-                    choice = UseFullMethods.Check(3, choice);
-                    Console.WriteLine("\n->");
-                    UseFullMethods.ClearConsole();
+                    choice = UseFullMethods.Check(2, choice);
+                    Console.Clear();
                     switch (choice)
                     {
                         case 1:
@@ -87,27 +86,32 @@ class Program
                                 Console.WriteLine($"[{n}.] {pair.Key} -- {pair.Value}");
                                 n++;
                             }
-                            Console.Write("[1.] Использовать вещь из инвентаря\n[2.] Выйти\nВвод: ");
-                            if(choice == 1)
+                            Console.Write("\n\n[1.] Использовать вещь из инвентаря\n[2.] Выйти\nВвод: ");
+                            choice = UseFullMethods.Check(2, choice);
+                            Console.WriteLine();
+                            if (choice == 1)
                             {
                                 Console.Write("Введите номер вещи, которую хотите использовать: ");
                                 UseFullMethods.Check(Inventory.Count, choice);
-                                Console.WriteLine("\n->");
-                                UseFullMethods.ClearConsole();
-                                Console.WriteLine("Выбранный элемент используется\n->");
-                                UseFullMethods.ClearConsole();
+                                Console.Clear();
                                 useThing = Inventory.ElementAt(choice - 1).Key;
-                                if (useThing == thingToUse) { thing = true; Delete(thingToUse); }
-                                else thing = false;
+                                if (useThing == thingToUse) 
+                                { 
+                                    thing = true; 
+                                    Delete(useThing); 
+                                    if(useThing != "")
+                                    {
+                                        Console.WriteLine("Выбранный элемент используется\n");
+                                    }
+                                }
+                                else
+                                {
+                                    thing = false;
+                                    Console.WriteLine("Это мы возьмем в следующий раз\n");
+                                }
                             }
                             break;
                         case 2:
-                            Info();
-                            Console.Write("\n[1.] Выйти\nВвод: ");
-                            choice = UseFullMethods.Check(1, choice);
-                            UseFullMethods.ClearConsole();
-                            break;
-                        case 3:
                             menu = false;
                             break;
                     }
@@ -121,11 +125,12 @@ class Program
                     Console.WriteLine(except.Message);
                 }
             }
+            return thing;
         }
     }
 
     delegate void Add(string thing, int count);
-    delegate void Delete(string thing);
+    delegate string Delete(string thing);
     delegate string Info();
 
     //--------------------
@@ -225,7 +230,6 @@ class Program
             Console.WriteLine("\t\t\t\tКонец пролога\n\t\t\t\t\t->");
             UseFullMethods.ClearConsole();
         }
-
         protected void MainPlotPart()
         {
             int choice = 0;
@@ -279,8 +283,11 @@ class Program
                 case 1:
                     Console.WriteLine("В парке на удивление никого не было. Тишина, спокойствие\nУсевшись на скамейке, которая скрывалась в тени густой кроны деревьев" +
                         ", вы достали наушники и только уже хотели включить музыку");
+                    UseFullMethods.ClearConsole();
                     break;
                 case 2:
+                    Console.WriteLine("проверка->");
+                    UseFullMethods.ClearConsole();
                     break;
             }
         }
@@ -288,13 +295,43 @@ class Program
         {
             int end_type = 0, choice = 0;
             if (end < 0) { end_type = 1; }
-            else if (end >= 0 && end <= 2) {  end_type = 2; }
+            else if (end >= 0 && end < 2) {  end_type = 2; }
             else { end_type = 3; }
 
             switch (end_type)
             {
                 case 1:
-
+                    Console.WriteLine("Шум, темнота, разговоры, касания\nВас кто-то уложил на холодную койку, привязав к ней и завязав глаза\nЕще пару мгновений, " +
+                        "вы перестали двигаться и чувствовать свое тело\n->");
+                    UseFullMethods.ClearConsole();
+                    Console.WriteLine("Но вы все слышали\n->");
+                    UseFullMethods.ClearConsole();
+                    Console.WriteLine("Слышали лязг метала, слышали капание крови и мерзкий хруст из-под скальпеля, разрезающий плоть\n->");
+                    UseFullMethods.ClearConsole();
+                    Console.WriteLine("Три, два, один, вы все же теряете сознание\n->");
+                    UseFullMethods.ClearConsole();
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("\t\tВ мае пропала одна из падших, являвшаяся ученицей 8-9 класса\nТело найдено не было, девушка объявлена все " +
+                        "еще пропавшей без вести\n->");
+                    UseFullMethods.ClearConsole();
+                    Console.WriteLine("\t\tЖители района, в котором пропала девушка предполагают, что возможно она стала очередной жертвой детской продажи органов\n->");
+                    UseFullMethods.ClearConsole();
+                    Console.ResetColor();
+                    Console.WriteLine("\t\tИ они были абсолютно правы\n->");
+                    UseFullMethods.ClearConsole();
+                    Console.WriteLine("Ойо действительно стала жертовй организации по продажи детских органов\nВ ходе операции ей успели вырезать пару не жизненноважных органов" +
+                        " и начать ампутацию ноги\n");
+                    UseFullMethods.ClearConsole();
+                    Console.WriteLine("Но в ходе операции что-то произошло и спустя время она очнулась в полном одиночестве\n->");
+                    UseFullMethods.ClearConsole();
+                    Console.WriteLine("Именно так и начался ее путь становления пятой падшей\nПытаясь сбежать, она успела найти в одном из шкафчиков какой-то потрепанный" +
+                        " протез для ноги\nА следующие 5 лет она, сбежав ото всех в заброшенную часть поселения падших, заменяла свои выжившие и не очень части тела на протезы" +
+                        " и биомеханические протезы, стараясь попросту выжить и стать снова 'нормальной'\n->");
+                    UseFullMethods.ClearConsole();
+                    Console.WriteLine("В итоге, почти 70% ее тело теперь роботизированно и она стала пятой падшей, совсем того не желая\nЕй просто хотелось избавиться от боли и страха" +
+                        " за свою жизнь\n->");
+                    UseFullMethods.ClearConsole();
+                    Console.WriteLine("Конец");
                     break;
                 case 2:
                     Console.WriteLine("Темно. Холодно. Сыро\nДвижения что-то сковывало или, быть может, у вас было лишьощущение того, что вы пытались двигаться" +
@@ -360,7 +397,8 @@ class Program
                     UseFullMethods.ClearConsole();
                     Console.WriteLine("Будто совсем недавно вы стояли здесь же, что-то здесь было важное..\n");
                     bool contTheGame = false;
-                    if(Menu(contTheGame, "венок"))
+                    bool charecter_menu = Menu(contTheGame, "венок");
+                    if (charecter_menu)
                     {
                         Console.WriteLine("Точно, вы же подняли венок в одном из своем возвращении в это место\n->");
                         UseFullMethods.ClearConsole();
@@ -415,10 +453,7 @@ class Program
             while (Menu)
             {
                 Console.Clear();
-                Console.Write($"----------------------------------------------------- [ {Oyoshi.Info()} ]\n|" +
-                $"                                                             |\n|                                                             |\n|" +
-                $"                                                             |\n|                                                             |\n|" +
-                $"[1.] Меню персонажа\t\t[2.] Выйти из меню\n-----------------------------------------------------\n\nВвод: ");
+                Console.Write($"[1.] Меню персонажа\t\t[2.] Выйти из меню\nВвод: ");
                 int choice = 0;
                 choice = UseFullMethods.Check(2, choice);
                 Console.Clear();
@@ -426,17 +461,22 @@ class Program
                 {
                     case 1:
                         bool menu = true;
-                        bool use = false;
-                        Oyo.menu(menu, usingThing, thingToUse, use);
+                        bool thing = false;
+                        thing = Oyo.menu(menu, usingThing, thingToUse, thing);
+                        if (thing)
+                        {
+                            continue_the_game = true;
+                            Menu = false;
+                        }
                         break;
                     case 2:
                         if(!continue_the_game)
                         {
                             Console.Write("\n\nБоюсь, вам нужно еще подумать над своим выбором\nУверены, что хотите выйти из меню?\n[1.] Нет\n[2.] Да\nВвод: ");
                             choice = UseFullMethods.Check(2, choice);
-                            if(choice == 2)
+                            Console.Clear();
+                            if (choice == 2)
                             {
-                                Console.Clear();
                                 continue_the_game = false;
                                 Menu = false;
                             }
@@ -444,7 +484,7 @@ class Program
                         break;
                 }
             }
-            return Menu;
+            return continue_the_game;
         }
         public void Plot()
         {
