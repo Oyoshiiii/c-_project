@@ -4,7 +4,10 @@ public class WrongNumException : Exception
     public WrongNumException() : base("Ошибка ввода. Такого действия или выбора нет, попробуйте снова\n") { }
     public static void WrongNum(int num, int maxNum)
     {
-        if(num < 1 || num > maxNum) { throw new ArgumentException(); }
+        if(num < 1 || num > maxNum)
+        {
+            throw new WrongNumException();
+        }
     }
 }
 
@@ -12,7 +15,7 @@ class Program
 {
     interface IGame
     {
-        public string Menu(bool continue_the_game, string thingToUse);
+        public bool Menu(bool continue_the_game, string thingToUse);
         public void Plot();
     }
     //------------------
@@ -28,7 +31,7 @@ class Program
             { "венок", 0 },
             { "незабудки", 0 }
         };
-        Oyoshi() { Name = "Ойоши"; MindLvl = 1; Mind = mindLvls[MindLvl - 1]; }
+        public  Oyoshi() { Name = "Ойоши"; MindLvl = 1; Mind = mindLvls[MindLvl - 1]; }
         
         void inventory()
         {
@@ -55,7 +58,7 @@ class Program
                 try
                 {
                     int choice = 0;
-                    UseFullMethods.Check(3, choice);
+                    choice = UseFullMethods.Check(3, choice);
                     Console.WriteLine("\n->");
                     UseFullMethods.ClearConsole();
                     switch (choice)
@@ -84,7 +87,7 @@ class Program
                         case 2:
                             Info();
                             Console.Write("\n[1.] Выйти\nВвод: ");
-                            UseFullMethods.Check(1, choice);
+                            choice = UseFullMethods.Check(1, choice);
                             UseFullMethods.ClearConsole();
                             break;
                         case 3:
@@ -112,7 +115,7 @@ class Program
     class UseFullMethods
     {
         public static void ClearConsole() { if (Console.ReadKey().Key != null) { Console.Clear(); } }
-        public static void Check(int max, int choice)
+        public static int Check(int max, int choice)
         {
             bool check = true;
             while (check)
@@ -132,6 +135,7 @@ class Program
                     Console.WriteLine(except.Message);
                 }
             }
+            return choice;
         }
     }
 
@@ -140,7 +144,7 @@ class Program
     {
         int end = 0;
         Oyoshi Oyo;
-        Game(Oyoshi Oyo) { this.Oyo = Oyo; }
+        public Game(Oyoshi Oyo) { this.Oyo = Oyo; }
         void Preface()
         {
             int choice = 0;
@@ -190,10 +194,10 @@ class Program
             UseFullMethods.ClearConsole();
         }
 
-        protected void Part1()
+        protected void MainPlotPart()
         {
             int choice = 0;
-            Console.WriteLine("\t\t\t\tЧасть 1\n\t\t\t\t\t->");
+            Console.WriteLine("\t\t\t\tОйоши\n\t\t\t\t\t->");
             UseFullMethods.ClearConsole();
             Console.WriteLine("??? - Ойоши, хватит спать, или расскажешь может тему лучше меня?\n->");
             UseFullMethods.ClearConsole();
@@ -203,7 +207,7 @@ class Program
             UseFullMethods.ClearConsole();
             Console.WriteLine("Только вот... урок такой скучный..\n[1.] Ну и что, потерпеть еще полчаса можно\n" +
                 "[2.] Вот именно, полчаса, никто ничего не потеряет, идем отсюда\nВвод: ");
-            UseFullMethods.Check(2, choice);
+            choice = UseFullMethods.Check(2, choice);
             UseFullMethods.ClearConsole();
             switch (choice)
             {
@@ -221,15 +225,11 @@ class Program
                     UseFullMethods.ClearConsole();
                     Console.WriteLine("Почему бы не прогуляться с приятной музыкой ы наушниках по парку?\n[1.] Прогуляться по парку\n" +
                         "[2.] Боюсь, для прогулок у меня сильная усталость..\nВвод: ");
-                    UseFullMethods.Check(2, choice);
+                    choice = UseFullMethods.Check(2, choice);
                     break;
                 case 2:
                     break;
             }
-        }
-        protected void Part2()
-        {
-
         }
         protected void End()
         {
@@ -252,7 +252,7 @@ class Program
                         "Вглубь этот водоем был примерно по щиколотки\n->");
                     UseFullMethods.ClearConsole();
                     Console.WriteLine("\n[1.] Подняться и осмотреться\n[2.] Остаться лежать в воде\nВвод: ");
-                    UseFullMethods.Check(2, choice);
+                    choice = UseFullMethods.Check(2, choice);
                     UseFullMethods.ClearConsole();
                     if(choice == 2)
                     {
@@ -306,17 +306,20 @@ class Program
                     break;
             }
         }
-        public string Menu(bool continue_the_game, string thingToUse)
+        public bool Menu(bool continue_the_game, string thingToUse)
         {
             string? usingThing = "";
-            while (!continue_the_game)
+            bool Menu = true;
+            while (Menu)
             {
-                Console.WriteLine($"----------------------------------------------------- [ {Oyoshi.Info()} ]\n|" +
+                Console.Clear();
+                Console.Write($"----------------------------------------------------- [ {Oyoshi.Info()} ]\n|" +
                 $"                                                             |\n|                                                             |\n|" +
                 $"                                                             |\n|                                                             |\n|" +
                 $"[1.] Меню персонажа\t\t[2.] Выйти из меню\n-----------------------------------------------------\n\nВвод: ");
                 int choice = 0;
-                UseFullMethods.Check(2, choice);
+                choice = UseFullMethods.Check(2, choice);
+                Console.Clear();
                 switch (choice)
                 {
                     case 1:
@@ -325,23 +328,34 @@ class Program
                         Oyo.menu(menu, usingThing, thingToUse, use);
                         break;
                     case 2:
-                        if(!continue_the_game) { Console.WriteLine("Боюсь, вам нужно еще подумать над своим выбором\n"); }
+                        if(!continue_the_game)
+                        {
+                            Console.Write("\n\nБоюсь, вам нужно еще подумать над своим выбором\nУверены, что хотите выйти из меню?\n[1.] Нет\n[2.] Да\nВвод: ");
+                            choice = UseFullMethods.Check(2, choice);
+                            if(choice == 2)
+                            {
+                                Console.Clear();
+                                continue_the_game = false;
+                                Menu = false;
+                            }
+                        }
                         break;
                 }
             }
-            return usingThing;
+            return Menu;
         }
         public void Plot()
         {
             Preface();
-            Part1();
-            Part2();
+            MainPlotPart();
             End();
         }
     }
 
     static void Main(string[] args)
     {
-
+        Oyoshi Oyoshi = new Oyoshi();
+        Game game = new Game(Oyoshi);
+        game.Plot();
     }
 }
