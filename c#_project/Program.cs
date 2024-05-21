@@ -27,9 +27,8 @@ class Program
         List<string> mindLvls = new List<string>() { "Рассудок в норме", "Помутнение сознания", "Потеря рассудка, дереализация" };
         static Dictionary<string, int> Inventory = new Dictionary<string, int>()
         {
-            { "аптечка", 0 },
             { "венок", 0 },
-            { "незабудки", 0 }
+            { "аптечка", 0 }
         };
         public  Oyoshi() { Name = "Ойоши"; MindLvl = 1; Mind = mindLvls[MindLvl - 1]; }
         
@@ -43,8 +42,26 @@ class Program
             }
         }
         static string info() { return $"{Name}\nРассудок: {Mind}"; }
-        static void addInventory(string thing, int count) { Inventory.Add(thing, count); }
-        static void deleteInventory(string thing) { Inventory.Remove(thing); }
+        static void addInventory(string thing, int count)
+        {
+            if (Inventory.ContainsKey(thing))
+            {
+                Inventory[thing] += count;
+            }
+            else { Inventory.Add(thing, count); }
+        }
+        static void deleteInventory(string thing)
+        {
+            int value = Inventory[thing];
+            if (value - 1 == 0)
+            {
+                Inventory.Remove(thing);
+            }
+            else if(value - 1 > 0)
+            {
+                Inventory[thing] = value - 1;
+            }
+        }
 
         public static Info Info = info;
         public static Add Add = addInventory;
@@ -159,8 +176,8 @@ class Program
                 " будто ощущение чего-то присутсвия было не единственным, что пугало\n->");
             UseFullMethods.ClearConsole();
             Console.Write("[1.] Остаться на месте\n[2.] Пойти осмотреться\nВвод: ");
-            UseFullMethods.Check(2, choice);
-            UseFullMethods.ClearConsole();
+            choice = UseFullMethods.Check(2, choice);
+            Console.Clear();
             switch (choice)
             {
                 case 1:
@@ -170,19 +187,34 @@ class Program
                 case 2:
                     Console.Write("Поле казалось бесконечным, вокруг вас ничего не было, кроме огромной, лазурного цвета, сакуры вдали\n" +
                         "[1.] Подойти\n[2.] Остаться на месте\nВвод: ");
-                    UseFullMethods.Check(2, choice);
+                    choice = UseFullMethods.Check(2, choice);
+                    Console.Clear();
                     if (choice == 2) Console.WriteLine("Вы предпочли остаться и вскоре вас мгновенно унесло в глубокий сон, хотя со стороны " +
                         "скорее выглядело, что вы потеряли сознание\n" +
                         "Вы упалим в мягкую подушку цветов, крепко уснув\n->");
                     else
                     {
-                        Console.WriteLine("Вы довольно быстро дошли до сакуры, хотя та казалась очень далеко\nКак только вы дошли," +
+                        Console.WriteLine("Вы довольно быстро дошли до сакуры, хотя та, казалось, была очень далеко\nКак только вы дошли," +
                             " вы поняли, что вас смщуло в этом месте еще\n->");
                         UseFullMethods.ClearConsole();
                         Console.WriteLine("Здесь напрочь отсутсвовало будто понятие времени, усталости.. возможно и других билогически " +
                             "важных факторов, как желание спать или голод\n" +
                             "С сакуры медленно опадали листья голубого, бирюзового и лазурного цветов\n->");
                         UseFullMethods.ClearConsole();
+                        Console.Write("У подножья сакуры находился маленький венок, сплетенный из незабудок. Он был весь усеян лепестками сакуры и был настолько" +
+                            " маленьким, что больше походил на цветочный браслет\n[1.] Взять венок\n[2.] Не трогать\nВвод: ");
+                        choice = UseFullMethods.Check(2, choice);
+                        Console.Clear();
+
+                        if (choice == 1)
+                        {
+                            Oyoshi.Add("венок", 1);
+                            Console.WriteLine("Вы подняли венок. Он был невообразимо мягок и легок, казалось, что он и вовсе нереален\n->");
+                            UseFullMethods.ClearConsole();
+                            Console.WriteLine("Как и все здесь\n->");
+                            UseFullMethods.ClearConsole();
+                        }
+                        
                         Console.WriteLine("Вся эта картина завораживала и вы даже не заметили, как потеряли сознание, " +
                             "упав в мягкую подушку цветов и крепко уснув\n->");
                         end++;
@@ -197,7 +229,7 @@ class Program
         protected void MainPlotPart()
         {
             int choice = 0;
-            Console.WriteLine("\t\t\t\tОйоши\n\t\t\t\t\t->");
+            Console.WriteLine("\t\t\t\tОйоши\n\t\t\t\t->");
             UseFullMethods.ClearConsole();
             Console.WriteLine("??? - Ойоши, хватит спать, или расскажешь может тему лучше меня?\n->");
             UseFullMethods.ClearConsole();
@@ -208,7 +240,7 @@ class Program
             Console.WriteLine("Только вот... урок такой скучный..\n[1.] Ну и что, потерпеть еще полчаса можно\n" +
                 "[2.] Вот именно, полчаса, никто ничего не потеряет, идем отсюда\nВвод: ");
             choice = UseFullMethods.Check(2, choice);
-            UseFullMethods.ClearConsole();
+            Console.Clear();
             switch (choice)
             {
                 case 1:
@@ -226,6 +258,27 @@ class Program
                     Console.WriteLine("Почему бы не прогуляться с приятной музыкой ы наушниках по парку?\n[1.] Прогуляться по парку\n" +
                         "[2.] Боюсь, для прогулок у меня сильная усталость..\nВвод: ");
                     choice = UseFullMethods.Check(2, choice);
+                    Console.Clear();
+                    break;
+                case 2:
+                    end--;
+                    Console.WriteLine("Ну и правильно, на улице такая прекрасная погода, какой смысл тут сидеть и помирать от скуки дальше?\n->");
+                    UseFullMethods.ClearConsole();
+                    Console.WriteLine("Дабы не попасться никому на глаза, вы тихонько собрали вещи и, когда преподаватель вышел, попросту испарились из кабинета" +
+                        ", обходя все коридоры окольными путями, чтобы дойти до выхода из школы\n->");
+                    UseFullMethods.ClearConsole();
+                    Console.WriteLine("Домой идти смысла нет, почему бы не прогуляться до парка?\n[1.] Хорошая идея\n[2.] Нет, усталость выше моего желания гулять\n" +
+                        "Ввод: ");
+                    choice = UseFullMethods.Check(2, choice);
+                    Console.Clear();
+                    break;
+            }
+
+            switch (choice)
+            {
+                case 1:
+                    Console.WriteLine("В парке на удивление никого не было. Тишина, спокойствие\nУсевшись на скамейке, которая скрывалась в тени густой кроны деревьев" +
+                        ", вы достали наушники и только уже хотели включить музыку");
                     break;
                 case 2:
                     break;
@@ -235,7 +288,7 @@ class Program
         {
             int end_type = 0, choice = 0;
             if (end < 0) { end_type = 1; }
-            else if (end >= 0 && end <= 5) {  end_type = 2; }
+            else if (end >= 0 && end <= 2) {  end_type = 2; }
             else { end_type = 3; }
 
             switch (end_type)
@@ -303,6 +356,55 @@ class Program
                     }
                     break;
                 case 3:
+                    Console.WriteLine("Сакура, бескрайнее цветочное поле\nВы были тут когда-то. Да, точно были\nВсе было до жути знакомым, теплым, легким\n->");
+                    UseFullMethods.ClearConsole();
+                    Console.WriteLine("Будто совсем недавно вы стояли здесь же, что-то здесь было важное..\n");
+                    bool contTheGame = false;
+                    if(Menu(contTheGame, "венок"))
+                    {
+                        Console.WriteLine("Точно, вы же подняли венок в одном из своем возвращении в это место\n->");
+                        UseFullMethods.ClearConsole();
+                        Console.Write("Кстати, вы ведь знаете, что вы в вашем ____?????\n ");
+                        string answ = Console.ReadLine();
+                        if(answ == "сознании" || answ == "Сознании")
+                        {
+                            Console.WriteLine("\nХорошо, значит еще не все потеряно\n->");
+                            UseFullMethods.ClearConsole();
+                        }
+                        else
+                        {
+                            Console.WriteLine("Ничего, быть может еще вспомните\n->");
+                            UseFullMethods.ClearConsole();
+                        }
+                        Console.WriteLine("Надень венок на руку\n[1.] Хорошо\n[2.] Нет\nВвод:");
+                        choice = UseFullMethods.Check(2, choice);
+                        if(choice == 1)
+                        {
+                            Console.WriteLine("Стоило вам надеть венок на руку, как в глазах мгновенно потемнело\nВас будто с силой вытолкнули в темноту, " +
+                                "ударив в грудь\n->");
+                            UseFullMethods.ClearConsole();
+                            Console.WriteLine("Вы с криком просыпаетесь, оглядываетесь вокруг и тотчас же падаете на пол, пытаясь встать\n->");
+                            UseFullMethods.ClearConsole();
+                            Console.WriteLine("Правая нога не двигалась и вы с трудом, опираясь на руки и задыхаясь, поползли к ближайшей двери\n->");
+                            UseFullMethods.ClearConsole();
+                            Console.WriteLine("Конец");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Тебя можно понять, мало кто захотел бы возвращаться, зная, что с ним так обошлись..\n->");
+                            UseFullMethods.ClearConsole();
+                            Console.WriteLine("В таком случае, добро пожаловать в твой мир спокойствия и бескрайней свободы\n->");
+                            UseFullMethods.ClearConsole();
+                            Console.WriteLine("Конец");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Нет, видимо тебе показалось\n->");
+                        Console.WriteLine("В таком случае, добро пожаловать в твой мир спокойствия и бескрайней свободы\n->");
+                        UseFullMethods.ClearConsole();
+                        Console.WriteLine("Конец");
+                    }
                     break;
             }
         }
