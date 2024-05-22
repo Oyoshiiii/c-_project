@@ -38,7 +38,6 @@ class Program
                 i++;
             }
         }
-        static string info() { return Name; }
         static void addInventory(string thing, int count)
         {
             if (Inventory.ContainsKey(thing))
@@ -65,7 +64,6 @@ class Program
             }
             return thing;
         }
-        public static Info Info = info;
         public static Add Add = addInventory;
         public static Delete Delete = deleteInventory;
 
@@ -133,7 +131,6 @@ class Program
 
     delegate void Add(string thing, int count);
     delegate string Delete(string thing);
-    delegate string Info();
 
     //--------------------
     class UseFullMethods
@@ -313,9 +310,9 @@ class Program
                     switch (choice)
                     {
                         case 1:
-                            Console.WriteLine($"Это хороший поступок, {Oyoshi.Info}\n->");
+                            Console.WriteLine($"Это хороший поступок, Ойоши\n->");
                             UseFullMethods.ClearConsole();
-                            Console.WriteLine("Вы быстро сбегали в магазин за парой пакетиком корма и вернулись к котику\n->");
+                            Console.WriteLine("Вы быстро сбегали в магазин за парой пакетикоd корма и вернулись к котику\n->");
                             UseFullMethods.ClearConsole();
                             Console.WriteLine("Накорми его теперь, думаю, он очень голодный и уставший\n->");
                             Oyoshi.Add("кошачий корм", 1);
