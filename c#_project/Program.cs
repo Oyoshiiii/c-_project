@@ -38,6 +38,7 @@ class Program
                 i++;
             }
         }
+        static string info() { return Name; }
         static void addInventory(string thing, int count)
         {
             if (Inventory.ContainsKey(thing))
@@ -64,6 +65,7 @@ class Program
             }
             return thing;
         }
+        public static Info Info = info;
         public static Add Add = addInventory;
         public static Delete Delete = deleteInventory;
 
@@ -233,7 +235,7 @@ class Program
         protected void MainPlotPart()
         {
             int choice = 0;
-            Console.WriteLine("\t\t\t\tОйоши\n\t\t\t\t->");
+            Console.WriteLine("\t\t\t\tОйоши\n\t\t\t\t   ->");
             UseFullMethods.ClearConsole();
             Console.WriteLine("??? - Ойоши, хватит спать, или расскажешь может тему лучше меня?\n->");
             UseFullMethods.ClearConsole();
@@ -282,27 +284,172 @@ class Program
             {
                 case 1:
                     Console.WriteLine("В парке на удивление никого не было. Тишина, спокойствие\nУсевшись на скамейке, которая скрывалась в тени густой кроны деревьев" +
-                        ", вы достали наушники и только уже хотели включить музыку");
+                        ", вы достали наушники и только уже хотели включить музыку, как услышали мяуканье в кустах непоадлеку\n->");
                     UseFullMethods.ClearConsole();
-                    //Ойо встречает котенка, над которым поиздевались люди. 
-                    //Ойоши идет в магазин за кормом, чтобы накормить кота, если она его не кормит, то end--, и она идет домой, где ее уже и похищают
-                    //Ойо кормит котика -> end++, девушка сидит рядом с котиком и следит за ним, затем засыпает и после ее похищают
+                    Console.WriteLine("Оставив вещи на скамейке и пройдя пару метров до кустов Сирени, вы осторожно присели на корточки\n->");
+                    UseFullMethods.ClearConsole();
+                    Console.WriteLine("Долго всматриваться не пришлось и вы почти сразу увидели маленького рыжего котенка со сломаной, видимо, " +
+                        "лапкой и кровоточащим глазиком\nСкорее всего над ним поглумились здешние дети, компашка малолеток четвертых падших, " +
+                        "поскольку эта ситуация уже не первая\n->");
+                    UseFullMethods.ClearConsole();
+                    Console.WriteLine("Вы пытались приманить котенка, но тот лишь отползал вглубь кустов\n->");
+                    UseFullMethods.ClearConsole();
+                    Console.WriteLine("Возможно у вас есть идея, как его приманить?\n->");
+                    bool contTheGame = false;
+                    bool charecter_menu = Menu(contTheGame, "кошачий корм");
+                    if (!charecter_menu)
+                    {
+                        Console.Write("Идея с кошачьим кормом неплохая, только вот у нас его нет\n[1.] Купить корм\n[2.] Уйти\nВвод: ");
+                        choice = UseFullMethods.Check(2, choice);
+                        Console.Clear();
+                        if (choice == 2)
+                        {
+                            Console.Write("Вы уверены?\n[1.] Нет\n[2.] Да, я все равно не смогу никак ему помочь, кроме как накормить.." +
+                                " ему будет все также больно\nВвод: ");
+                            choice = UseFullMethods.Check(2, choice);
+                        }
+                        Console.Clear();
+                    }
+                    switch (choice)
+                    {
+                        case 1:
+                            Console.WriteLine($"Это хороший поступок, {Oyoshi.Info}\n->");
+                            UseFullMethods.ClearConsole();
+                            Console.WriteLine("Вы быстро сбегали в магазин за парой пакетиком корма и вернулись к котику\n->");
+                            UseFullMethods.ClearConsole();
+                            Console.WriteLine("Накорми его теперь, думаю, он очень голодный и уставший\n->");
+                            Oyoshi.Add("кошачий корм", 1);
+                            UseFullMethods.ClearConsole();
+                            contTheGame = false;
+                            charecter_menu = Menu(contTheGame, "кошачий корм");
+                            if (charecter_menu)
+                            {
+                                end++;
+                                Console.WriteLine("Открыв аккуратно корм и раскрыв упаковку так, чтобы она была похожа на небольшое блюдце, вы положили его в траву, " +
+                                    "недалеко от котика\n->");
+                                UseFullMethods.ClearConsole();
+                                Console.WriteLine("Учуяв запах еды, котенок жалобно замяукал\nПопытался пару раз подойти, но отползал, боялся очень\n->");
+                                UseFullMethods.ClearConsole();
+                                Console.WriteLine("Спустя несколько попыток подойти, котик все же дополз до корма и принялся кушать, периодически поглядывая на вас и " +
+                                    "и мяукая\n->");
+                                UseFullMethods.ClearConsole();
+                                Console.WriteLine("Вы позвонили одной из своих знакомых, с просьбой вынести коробоку и аптечку для котика\n->");
+                                UseFullMethods.ClearConsole();
+                                Console.WriteLine("Ну а пока вы ждали, котенок улегся вам под бок и заснул, а вскоре и вы сами\n");
+                            }
+                            else
+                            {
+                                end--;
+                                Console.WriteLine("Почему ты не стала его кормить? Что-то не так?\n->");
+                                UseFullMethods.ClearConsole();
+                                Console.WriteLine("Не успев ответить самой себе на этот вопрос, вы чувствуете внезапную боль в затылке, словно вас ударил кто-то\n->");
+                                UseFullMethods.ClearConsole();
+                                Console.WriteLine("Вы никак не смогли среагировать и в следующие мгновения перед потерей сознания вы чувствовали, как вас тянут к дороге," +
+                                    " а после укладывают в машину, накрыв тканью\n");
+                                UseFullMethods.ClearConsole();
+                            }
+                            break;
+                        case 2:
+                            end--;
+                            Console.WriteLine("Почему ты не стала его кормить? Что-то не так?\n->");
+                            UseFullMethods.ClearConsole();
+                            Console.WriteLine("На этот вопрос вы и не смогли дать ответа\nВы собрали свои вещи и неправились обратно к дому, сдерживая слезы и натягивая" +
+                                " посильнее капюшон от кофты на себя\n->");
+                            UseFullMethods.ClearConsole();
+                            Console.WriteLine("Подходя к дому, вы заметили краем глаза, что за вами уже несколько минут медленно едет машина вдоль дворовой територрии\n->");
+                            UseFullMethods.ClearConsole();
+                            Console.WriteLine("Вы решили не придавать этому особое значение\nНо стоя уже на крыльце дома, вы почувствовали острую боль в затылке и после в ногах" +
+                                ", в области колен\n->");
+                            UseFullMethods.ClearConsole();
+                            Console.WriteLine("Упасть на землю вы не успели, вас кто-то подхватил и закрыл рот тряпкой\n->");
+                            UseFullMethods.ClearConsole();
+                            Console.WriteLine("Медленно теряя сознание вы успели лишь понять, что вас тащат куда-то и после укладывают, вроде как, в машину\nА после накрывают тканью\n->");
+                            UseFullMethods.ClearConsole();
+                            break;
+                    }
                     break;
                 case 2:
-                    Console.WriteLine("");
-                    //по пути домой, она встретит на земле потертое лезвие
-                    //если она его возьмет, то end++ и при попытке сбежать от тех, кто ее будет похищать, она сможет выиграть время => шанс на другую концовку
-                    //если не берет, то уend-- ее быстро похищают и при попытке сбежать, ей ничего не остается сделать, кроме как сдаться
+                    Console.WriteLine("Дорога домой оказалась крайне утомительной, хоть вы и слушали любимую музыку, на улице была хорошая погода, а до дома идти было" +
+                        " совсем недолго\n->");
                     UseFullMethods.ClearConsole();
+                    Console.WriteLine("И все же, вас убивала усталость\nХотелось прям на тротуаре уже лечь и заснуть\n->");
+                    UseFullMethods.ClearConsole();
+                    Console.WriteLine("Под ногой внезапной что-то звякнуло\n->");
+                    UseFullMethods.ClearConsole();
+                    Console.Write("Вы опустили взгляд вниз, убрали ногу и увидели лезиве\n[1.] Взять лезвие\n[2.] Не трогать\nВвод: ");
+                    choice = UseFullMethods.Check(2, choice);
+                    Console.Clear();
+                    if(choice == 1)
+                    {
+                        end++;
+                        Console.WriteLine("Что-то вам подсказало, что лучше взять то лезвие\n->");
+                        UseFullMethods.ClearConsole();
+                        Console.WriteLine("Оно тебе пригодится\n->");
+                        UseFullMethods.ClearConsole();
+                        Oyoshi.Add("лезвие", 1);
+                    }
+                    else
+                    {
+                        end--;
+                        Console.WriteLine("Ты уверена?\n->");
+                        UseFullMethods.ClearConsole();
+                        Console.WriteLine("Промелькнула мысль у вас в голове и тотчас же пропала\n->");
+                        UseFullMethods.ClearConsole();
+                    }
+                    Console.WriteLine("Подходя к дому, вы заметили краем глаза, что за вами уже несколько минут медленно едет машина вдоль дворовой територрии\n->");
+                    UseFullMethods.ClearConsole();
+                    Console.WriteLine("Вы решили не придавать этому особое значение\nНо стоя уже на крыльце дома, вы почувствовали острую боль в затылке и после в ногах" +
+                        ", в области колен\n->");
+                    UseFullMethods.ClearConsole();
+                    Console.WriteLine("Упасть на землю вы не успели, вас кто-то подхватил и закрыл рот тряпкой\n->");
+                    UseFullMethods.ClearConsole();
+
+                    contTheGame = false;
+                    charecter_menu = Menu(contTheGame, "лезвие");
+                    Console.Clear();
+                    if (charecter_menu)
+                    {
+                        Console.WriteLine("Вы смогли извернуться и достать лезвае из кармана, которое подобрали ранее\n->");
+                        UseFullMethods.ClearConsole();
+                        Console.WriteLine("Хоть и ударили лезвием вы произвольно, сделали вы это очень удачно и смогли убежать прочь от дома\n->");
+                        UseFullMethods.ClearConsole();
+                        Console.WriteLine("Правда, бежать вы долго не смогли и уже за углом одного из домов упали\nНоги кровоточили со внутренней стороны колен," +
+                            " видимо вам пытались перерезать сухожилия, а бежать вам удавалось лишь засчет адреналина\n->");
+                        UseFullMethods.ClearConsole();
+                        Console.WriteLine("Совсем скоро вас снова нашли, натянули на голову мешок и утянули куда-то, чуть не удушив мешком\n->");
+                        UseFullMethods.ClearConsole();
+                        Console.WriteLine("Поразительно, насколько всем было безразлично на то, что происходило\n->");
+                        UseFullMethods.ClearConsole();
+                    }
+                    else
+                    {
+
+                        Console.WriteLine("Медленно теряя сознание вы успели лишь понять, что вас тащат куда-то и после укладывают, вроде как, в машину\n" +
+                            "А после накрывают тканью\n->");
+                        UseFullMethods.ClearConsole();
+                    }
                     break;
             }
-            //описание ее похищения, как ее до туда везли, описание окружения
+            Console.WriteLine("Темно. Холодно. Больно\nВас куда-то везли, но из-под ткани ничего не было видно\n->");
+            UseFullMethods.ClearConsole();
+            Console.WriteLine("Но даже так было заметно, что в салон автомобиля не проникал свет.. видимо, уже поздняя ночь\n->");
+            UseFullMethods.ClearConsole();
+            Console.WriteLine("У подножья сидений, на полу, был слышен противный скрежет и мерзкое жужжание, будто там горсть всевозможных насекомых и прочей" +
+                " живности\n->");
+            UseFullMethods.ClearConsole();
+            Console.WriteLine("Было очень страшно, из глаз текли слезы, тело не слушалось\nТы несколько раз закрывала и открывала глаза, надеясь, что ты спишь\n->");
+            UseFullMethods.ClearConsole();
+            Console.WriteLine("Прости, милая Ойо, но из реальности проснуться нельзя\n");
+            UseFullMethods.ClearConsole();
+            Console.WriteLine("Вскоре, от усталости и болевого шока, вас вновь вырубило\n->");
+            UseFullMethods.ClearConsole();
+            Console.WriteLine("\t\t\t\tКонец основной главы\n\t\t\t\t->");
         }
         protected void End()
         {
             int end_type = 0, choice = 0;
             if (end < 0) { end_type = 1; }
-            else if (end >= 0 && end < 2) {  end_type = 2; }
+            else if (end >= 0 && end < 3) {  end_type = 2; }
             else { end_type = 3; }
 
             switch (end_type)
@@ -402,7 +549,8 @@ class Program
                 case 3:
                     Console.WriteLine("Сакура, бескрайнее цветочное поле\nВы были тут когда-то. Да, точно были\nВсе было до жути знакомым, теплым, легким\n->");
                     UseFullMethods.ClearConsole();
-                    Console.WriteLine("Будто совсем недавно вы стояли здесь же, что-то здесь было важное..\n");
+                    Console.WriteLine("Будто совсем недавно вы стояли здесь же, что-то здесь было важное..\n->");
+                    UseFullMethods.ClearConsole();
                     bool contTheGame = false;
                     bool charecter_menu = Menu(contTheGame, "венок");
                     if (charecter_menu)
