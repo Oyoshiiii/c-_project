@@ -92,14 +92,15 @@ class Program
                             if (choice == 1)
                             {
                                 Console.Write("Введите номер вещи, которую хотите использовать: ");
-                                UseFullMethods.Check(Inventory.Count, choice);
+                                choice = UseFullMethods.Check(Inventory.Count, choice);
                                 Console.Clear();
-                                useThing = Inventory.ElementAt(choice - 1).Key;
-                                if (useThing == thingToUse) 
-                                { 
-                                    thing = true; 
-                                    Delete(useThing); 
-                                    if(useThing != "")
+                                List<string> keys = Inventory.Select(thing => thing.Key).ToList();
+                                useThing = keys[choice - 1];
+                                if (useThing == thingToUse)
+                                {
+                                    thing = true;
+                                    Delete(useThing);
+                                    if (useThing != "")
                                     {
                                         Console.WriteLine("Выбранный элемент используется\n");
                                     }
@@ -110,9 +111,11 @@ class Program
                                     Console.WriteLine("Это мы возьмем в следующий раз\n");
                                 }
                             }
+                            else Console.Clear();
                             break;
                         case 2:
                             menu = false;
+                            Console.Clear();
                             break;
                     }
                 }
@@ -332,7 +335,8 @@ class Program
                                 UseFullMethods.ClearConsole();
                                 Console.WriteLine("Вы позвонили одной из своих знакомых, с просьбой вынести коробоку и аптечку для котика\n->");
                                 UseFullMethods.ClearConsole();
-                                Console.WriteLine("Ну а пока вы ждали, котенок улегся вам под бок и заснул, а вскоре и вы сами\n");
+                                Console.WriteLine("Ну а пока вы ждали, котенок улегся вам под бок и заснул, а вскоре и вы сами\n->");
+                                UseFullMethods.ClearConsole();
                             }
                             else
                             {
@@ -342,7 +346,7 @@ class Program
                                 Console.WriteLine("Не успев ответить самой себе на этот вопрос, вы чувствуете внезапную боль в затылке, словно вас ударил кто-то\n->");
                                 UseFullMethods.ClearConsole();
                                 Console.WriteLine("Вы никак не смогли среагировать и в следующие мгновения перед потерей сознания вы чувствовали, как вас тянут к дороге," +
-                                    " а после укладывают в машину, накрыв тканью\n");
+                                    " а после укладывают в машину, накрыв тканью\n->");
                                 UseFullMethods.ClearConsole();
                             }
                             break;
@@ -436,11 +440,12 @@ class Program
             UseFullMethods.ClearConsole();
             Console.WriteLine("Было очень страшно, из глаз текли слезы, тело не слушалось\nТы несколько раз закрывала и открывала глаза, надеясь, что ты спишь\n->");
             UseFullMethods.ClearConsole();
-            Console.WriteLine("Прости, милая Ойо, но из реальности проснуться нельзя\n");
+            Console.WriteLine("Прости, милая Ойо, но из реальности проснуться нельзя\n->");
             UseFullMethods.ClearConsole();
             Console.WriteLine("Вскоре, от усталости и болевого шока, вас вновь вырубило\n->");
             UseFullMethods.ClearConsole();
             Console.WriteLine("\t\t\t\tКонец основной главы\n\t\t\t\t->");
+            UseFullMethods.ClearConsole();
         }
         protected void End()
         {
@@ -457,7 +462,7 @@ class Program
                     UseFullMethods.ClearConsole();
                     Console.WriteLine("Но вы все слышали\n->");
                     UseFullMethods.ClearConsole();
-                    Console.WriteLine("Слышали лязг метала, слышали капание крови и мерзкий хруст из-под скальпеля, разрезающий плоть\n->");
+                    Console.WriteLine("Слышали лязг метала, слышалось капание крови и мерзкий хруст из-под скальпеля, разрезающий плоть\n->");
                     UseFullMethods.ClearConsole();
                     Console.WriteLine("Три, два, один, вы все же теряете сознание\n->");
                     UseFullMethods.ClearConsole();
@@ -465,13 +470,14 @@ class Program
                     Console.WriteLine("\t\tВ мае пропала одна из падших, являвшаяся ученицей 8-9 класса\nТело найдено не было, девушка объявлена все " +
                         "еще пропавшей без вести\n->");
                     UseFullMethods.ClearConsole();
-                    Console.WriteLine("\t\tЖители района, в котором пропала девушка предполагают, что возможно она стала очередной жертвой детской продажи органов\n->");
+                    Console.WriteLine("\t\tЖители района, в котором пропала девушка предполагают, что возможно она стала " +
+                        "очередной жертвой детской продажи органов\n->");
                     UseFullMethods.ClearConsole();
                     Console.ResetColor();
                     Console.WriteLine("\t\tИ они были абсолютно правы\n->");
                     UseFullMethods.ClearConsole();
                     Console.WriteLine("Ойо действительно стала жертовй организации по продажи детских органов\nВ ходе операции ей успели вырезать пару не жизненноважных органов" +
-                        " и начать ампутацию ноги\n");
+                        " и начать ампутацию ноги\n->");
                     UseFullMethods.ClearConsole();
                     Console.WriteLine("Но в ходе операции что-то произошло и спустя время она очнулась в полном одиночестве\n->");
                     UseFullMethods.ClearConsole();
@@ -485,14 +491,14 @@ class Program
                     Console.WriteLine("Конец");
                     break;
                 case 2:
-                    Console.WriteLine("Темно. Холодно. Сыро\nДвижения что-то сковывало или, быть может, у вас было лишьощущение того, что вы пытались двигаться" +
+                    Console.WriteLine("Темно. Холодно. Сыро\nДвижения что-то сковывало или, быть может, у вас было лишь ощущение того, что вы пытались двигаться" +
                         "\n->");
                     UseFullMethods.ClearConsole();
                     Console.WriteLine("Открыть глаза вам удалось лишь спустя время и уйму усилий\nМедленно восстанавливая фокус зрения, вы смогли понять" +
                         ", что находитесь в каком-то бескрайнем водоеме.. бескрайнем исключительно относительно горизонта\n" +
                         "Вглубь этот водоем был примерно по щиколотки\n->");
                     UseFullMethods.ClearConsole();
-                    Console.WriteLine("\n[1.] Подняться и осмотреться\n[2.] Остаться лежать в воде\nВвод: ");
+                    Console.Write("\n[1.] Подняться и осмотреться\n[2.] Остаться лежать в воде\nВвод: ");
                     choice = UseFullMethods.Check(2, choice);
                     UseFullMethods.ClearConsole();
                     if(choice == 2)
@@ -526,7 +532,7 @@ class Program
                         UseFullMethods.ClearConsole();
                         Console.WriteLine("Весь островок был покрыт полем незабудок, над ним, в воздухе, парили некие существа, схожие с медузами, но в тоже" +
                             " время они были настолько невесомыми, легкими и прозрачными, что казалось, что это пары дым\nЛишь ултрамариновый отблеск в тени их выделял" +
-                            " и позволял увидеть\n");
+                            " и позволял увидеть\n->");
                         UseFullMethods.ClearConsole();
                         Console.WriteLine("Что-то в этом мирке манило, затуманивало разум, успокаивало..\n->");
                         UseFullMethods.ClearConsole();
@@ -568,6 +574,7 @@ class Program
                         }
                         Console.WriteLine("Надень венок на руку\n[1.] Хорошо\n[2.] Нет\nВвод:");
                         choice = UseFullMethods.Check(2, choice);
+                        Console.Clear();
                         if(choice == 1)
                         {
                             Console.WriteLine("Стоило вам надеть венок на руку, как в глазах мгновенно потемнело\nВас будто с силой вытолкнули в темноту, " +
